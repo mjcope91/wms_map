@@ -1,4 +1,7 @@
-var app;
+var app, map;
+var dem_result_layer
+var dem_result_url
+
 
 require(["esri/Color",
               "esri/layers/ArcGISDynamicMapServiceLayer",
@@ -11,11 +14,13 @@ require(["esri/Color",
               "esri/tasks/LinearUnit",
               "esri/symbols/SimpleMarkerSymbol",
               "esri/symbols/SimpleLineSymbol",
-              "esri/symbols/SimpleFillSymbol"
-              ],
-        function(Color, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer, Map, Graphic, graphicsUtils, Geoprocessor, FeatureSet, LinearUnit, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol){
+              "esri/symbols/SimpleFillSymbol",
+              "esri/layers/RasterLayer"
 
-            var map, gp;
+              ],
+        function(Color, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer, Map, Graphic, graphicsUtils, Geoprocessor, FeatureSet, LinearUnit, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,RasterLayer){
+
+            var gp;
             var featureSet = new FeatureSet();
             console.log(distance);
 
@@ -28,7 +33,7 @@ require(["esri/Color",
             var borderLayer = new ArcGISDynamicMapServiceLayer("http://geoserver.byu.edu:6080/arcgis/rest/services/Michael_Cope/DEM/MapServer");
             map.addLayer(borderLayer);
 
-            gp = new Geoprocessor("http://geoserver.byu.edu:6080/arcgis/rest/services/Michael_Cope/Mining/GPServer/Mining");
+            gp = new Geoprocessor("http://geoserver.byu.edu:6080/arcgis/rest/services/Michael_Cope/mining2/GPServer/mining2");
             gp.setOutputSpatialReference({
               wkid: 102100
             });
@@ -55,7 +60,6 @@ require(["esri/Color",
             vsDistance.distance = document.getElementById("distance").value;
             vsDistance.units = "esriMeters";
 
-
             var params = {
               "Point": featureSet,
               "Distance": vsDistance
@@ -80,10 +84,18 @@ require(["esri/Color",
           function completeCallback(jobInfo) {
             console.log("getting data");
             gp.getResultData(jobInfo.jobId, "volume", displayVolume);
+            //gp.getResultData(jobInfo.jobId, "ModifiedDEM", displayDEM);
           }
 
-          function displayVolume(result, messages) {
-            alert("123")
+          function displayDEM(result, messages) {
+
+              dem_result_url = result.value.url;
+
+              dem_result_layer = new esri.layers.Raster(dem_result_url);
+
+              map.removeLayer(borderLayer);
+              map.addLayer(dem_result_layer);
+
           //     var polySymbol = new SimpleFillSymbol();
           //     polySymbol.setOutline(new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 0.5]), 1));
           //     polySymbol.setColor(new Color([255, 127, 0, 0.7]));
