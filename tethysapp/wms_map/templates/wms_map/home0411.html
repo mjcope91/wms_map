@@ -1,0 +1,76 @@
+{% extends "wms_map/base.html" %}
+{% load staticfiles %}
+
+{% block app_navigation_items %}
+  <li class="title">Mining Tools</li><br>
+  <p>1. Select a point on the map </p>
+  <p>2. Enter a radius distance (meters)</p>
+  <p>3. Click "Run Tool"</p>
+  
+  <!-- <button class="btn" data-dojo-type="dijit/form/Button">Freehand Polygon</button><br><br> -->
+  <!-- <button onclick="initToolbar()">Draw Mining Area</button><br><br> -->
+  <input type="text" id="distance"><br><br>
+  <button onclick="app.run_service()">Run Tool</button><br><br>
+<!-- Would this work to put our volume back?
+	document.getElementById("finalvol").innerHTML = volume -->
+   <div id="statusDiv">
+    <p id="volstatus"></p>
+    <p id="finalvol"></p>
+  </div>
+
+  
+{% endblock %}
+
+{% block app_content %}
+  <h1>Welcome to the Mountain Top Mining Explorer!</h1>
+
+ <html>
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Maps Toolbar</title>
+   
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css">
+    <style>
+      html, body, #mainWindow {
+        font-family: sans-serif; 
+        height: 100%; 
+        width: 100%; 
+      }
+      html, body {
+        margin: 0; 
+        padding: 0;
+      }
+      #header {
+        height: 80px; 
+        overflow: auto;
+        padding: 0.5em;
+      }
+    </style>
+    
+  </head>
+
+    <script src="https://js.arcgis.com/3.20/init.js"></script>
+
+<body>
+    <!-- <div id="map" style="height: 700px" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"></div> -->
+    <div id="mapDiv" style="height: 700px"></div>
+  </div>
+
+</body>
+
+</html>
+ 
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'wms_map/js/main2.js' %}"></script>
+{% endblock %}
+
+
+
+<!-- map.graphics.graphics[1].geometry.rings[0] -->

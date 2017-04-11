@@ -1,0 +1,229 @@
+{% extends "wms_map/base.html" %}
+
+{% block app_content %}
+  <h1>Welcome to the Mountain Top Mining Explorer!</h1>
+
+  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+ 	<html>
+ 	<head>
+ 	<title>Simple example using ArcGIS JavaScript API and a published map</title>
+ 	<style type="text/css">
+ 	@import "https://js.arcgis.com/3.15/esri/css/esri.css";
+ 	@import "https://geoserver.byu.edu:6443/arcgis/rest/static/jsapi.css";
+ 	</style>
+ 	<!-- <script type="text/javascript" src="https://js.arcgis.com/3.15/init.js"></script> -->
+	<!--test-->
+ 	<script src="https://js.arcgis.com/3.20/"></script>
+ 	<!--end test-->
+ 	<script type="text/javascript">
+
+ 	 
+ 	//This "require" function is used by the ESRI/DOJO system. It loads modules and then runs the "function" code
+ 	//So your custom code for the most part goes in the function block below.
+ 	require([
+ 	"esri/layers/ArcGISDynamicMapServiceLayer",
+ 	"esri/layers/ArcGISTiledMapServiceLayer",
+ 	"esri/map",
+ 	"dojo/domReady!"
+ 	],
+ 	function(ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer, Map, parser){
+ 	//This is the main function that will run once the page has fully loaded
+ 	//Create a map object with a default "streets" basemap:
+ 	var map = new Map("mapDiv", {basemap: "streets", center: [-111.57, 40.18], zoom:12});  //center is at -111.6, 40.23
+ 	//Create a layer object that pulls your web mapping service from the geoserver.byu.edu server:
+ 	var layer;
+ 	// layer = new ArcGISDynamicMapServiceLayer("https://geoserver.byu.edu:6443/arcgis/rest/services/dan_ames/walmart/MapServer");
+ 	layer = new ArcGISDynamicMapServiceLayer("http://geoserver.byu.edu:6080/arcgis/rest/services/Michael_Cope/DEM/MapServer");
+ 	map.addLayer(layer);
+ 	});
+ 	</script>
+ 	</head>
+ 	 
+ 	<body class="tundra">
+ 	<div id="mapDiv" style="height: 700px">
+
+ 	<!--test-->
+<!--     <div id="info" class="esriSimpleSlider">
+      <div data-dojo-type="dijit.form.Button" id="drawPoly" onclick="app.toolbar.activate(esri.toolbars.Draw.FREEHAND_POLYGON);app.map.hideZoomSlider();">
+        Summarize Population
+      </div>
+      Click Summarize Population and draw a polygon on the map. A GP task will be called to summarize the population within the polygon.
+    </div>
+
+    <div data-dojo-type="dijit.Dialog" id="dialog1" title="Population Summary"></div> -->
+    <!--end test-->
+
+
+
+
+
+
+
+
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Maps Toolbar</title>
+    
+    <!-- <link rel="stylesheet" href="https://js.arcgis.com/3.20/dijit/themes/nihilo/nihilo.css"> -->
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css">
+    <style>
+      html, body, #mainWindow {
+        font-family: sans-serif; 
+        height: 100%; 
+        width: 100%; 
+      }
+      html, body {
+        margin: 0; 
+        padding: 0;
+      }
+      #header {
+        height: 80px; 
+        overflow: auto;
+        padding: 0.5em;
+      }
+    </style>
+    
+    <script src="https://js.arcgis.com/3.20/"></script>
+    <script>
+      var map, toolbar, symbol, geomTask;
+
+      require([
+      	"esri/layers/ArcGISDynamicMapServiceLayer",
+        "esri/map", 
+        "esri/toolbars/draw",
+        "esri/graphic",
+
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/SimpleFillSymbol",
+
+        "dojo/parser", "dijit/registry",
+
+        "dijit/layout/BorderContainer", "dijit/layout/ContentPane", 
+        "dijit/form/Button", "dijit/WidgetSet", "dojo/domReady!"
+      ], function(
+        ArcGISDynamicMapServiceLayer, Map, Draw, Graphic,
+        SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,
+        parser, registry
+      ) {
+        parser.parse();
+
+        map = new Map("map", {
+          basemap: "streets",
+          center: [-111.57, 40.18], //center at -15.469, 36.428 zooom: 3
+          zoom: 12
+        });
+
+     	var layer;
+	 	layer = new ArcGISDynamicMapServiceLayer("http://geoserver.byu.edu:6080/arcgis/rest/services/Michael_Cope/DEM/MapServer");
+	 	map.addLayer(layer);               
+
+        map.on("load", createToolbar);
+
+        // loop through all dijits, connect onClick event
+        // listeners for buttons to activate drawing tools
+        registry.forEach(function(d) {
+          // d is a reference to a dijit
+          // could be a layout container or a button
+          if ( d.declaredClass === "dijit.form.Button" ) {
+
+            d.on("click", activateTool);
+          }
+        });
+
+        function activateTool() {
+          var tool = this.label.toUpperCase().replace(/ /g, "_");
+          toolbar.activate(Draw[tool]);
+          map.hideZoomSlider();
+        }
+
+        function createToolbar(themap) {
+          toolbar = new Draw(map);
+          toolbar.on("draw-end", addToMap);
+        }
+
+        function addToMap(evt) {
+          var symbol;
+          toolbar.deactivate();
+          map.showZoomSlider();
+          switch (evt.geometry.type) {
+            case "point":
+            case "multipoint":
+              symbol = new SimpleMarkerSymbol();
+              break;
+            case "polyline":
+              symbol = new SimpleLineSymbol();
+              break;
+            default:
+              symbol = new SimpleFillSymbol();
+              break;
+          }
+          var graphic = new Graphic(evt.geometry, symbol);
+          map.graphics.add(graphic);
+        }
+      });
+    </script>
+
+  </head>
+<!--<body class="nihilo">-->
+<body>
+
+  <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'">
+    <div id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+     <!--  <span>Draw:<br /></span>
+      <button data-dojo-type="dijit/form/Button">Point</button>
+      <button data-dojo-type="dijit/form/Button">Multi Point</button>
+      <button data-dojo-type="dijit/form/Button">Line</button>
+      <button data-dojo-type="dijit/form/Button">Polyline</button>
+      <button data-dojo-type="dijit/form/Button">Polygon</button>
+      <button data-dojo-type="dijit/form/Button">Freehand Polyline</button>
+      <button data-dojo-type="dijit/form/Button">Freehand Polygon</button>
+      
+      <button data-dojo-type="dijit/form/Button">Arrow</button>
+      <button data-dojo-type="dijit/form/Button">Triangle</button>
+      <button data-dojo-type="dijit/form/Button">Circle</button>
+      <button data-dojo-type="dijit/form/Button">Ellipse</button> -->
+    </div>
+    <div id="map" style="height: 700px" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"></div>
+  </div>
+
+  </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	</body>
+
+	</html>
+ 
+{% endblock %}
+
+{% block app_actions %}
+  <a href="" class="btn btn-default">Next</a>
+  <a href="" class="btn btn-default">Back</a>
+{% endblock %}
+
+
+<!-- $('#map_graphics_layer').find('path').attr('path') -->

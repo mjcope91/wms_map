@@ -1,0 +1,46 @@
+{% extends "wms_map/base.html" %}
+
+{% load tethys_gizmos %}
+
+{% load staticfiles %}
+
+{% block styles %}
+{{ block.super }}
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css">
+    <style>
+      #mapDiv {
+        height: 600px;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+    </style>
+{% endblock %}
+
+{% block app_navigation_items %}
+
+  <li class="title">Mining Tools</li><br>
+  <p>1. Select a point on the map </p>
+  <p>2. Enter a radius distance (meters)</p>
+  <p>3. Click "Run Tool"</p>
+
+  <input type="text" id="distance"><br><br>
+  <button onclick="app.run_service()">Run Tool</button><br><br>
+
+  <div id="statusDiv">
+    <p id="volstatus"></p>
+  </div>
+
+{% endblock %}
+
+{% block app_content %}
+
+<div id="mapDiv"></div>
+
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="https://js.arcgis.com/3.20/init.js"></script>
+  <script src="{% static 'wms_map/js/main3.js' %}"></script>
+{% endblock %}
