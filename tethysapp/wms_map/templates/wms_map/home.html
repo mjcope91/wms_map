@@ -29,7 +29,12 @@
 
   <div id="statusDiv">
     <p id="volstatus"></p>
+      <p id="volume"></p>
   </div>
+
+<button type="button" class="btn btn-default" onclick="window.location='/apps/wms-map/help_file/'">User Help File</button>
+
+<button type="button" class="btn btn-default" onclick="window.location='/apps/wms-map/technical_file/'">Technical Documentation</button>
 
 {% endblock %}
 
@@ -42,5 +47,5 @@
 {% block scripts %}
   {{ block.super }}
   <script src="https://js.arcgis.com/3.20/init.js"></script>
-  <script src="{% static 'wms_map/js/main3.js' %}"></script>
+  <script src="{% static 'wms_map/js/map.js' %}"></script>
 {% endblock %}

@@ -27,6 +27,13 @@ class MountainTopMiningExplorer(TethysAppBase):
         url_maps = (UrlMap(name='home',
                            url='wms-map',
                            controller='wms_map.controllers.home'),
+                    UrlMap(name='help_file',
+                           url='wms-map/help_file',
+                           controller='wms_map.controllers.help_file'),
+                    UrlMap(name='technical_file',
+                           url='wms-map/technical_file',
+                           controller='wms_map.controllers.technical_file'),
+
         )
 
         return url_maps

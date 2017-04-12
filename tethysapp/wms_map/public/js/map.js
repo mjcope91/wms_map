@@ -1,7 +1,4 @@
 var app, map;
-var dem_result_layer
-var dem_result_url
-
 
 require(["esri/Color",
               "esri/layers/ArcGISDynamicMapServiceLayer",
@@ -22,7 +19,6 @@ require(["esri/Color",
 
             var gp;
             var featureSet = new FeatureSet();
-            console.log(distance);
 
             map = new Map("mapDiv", {
               basemap: "streets",
@@ -33,7 +29,7 @@ require(["esri/Color",
             var borderLayer = new ArcGISDynamicMapServiceLayer("http://geoserver.byu.edu:6080/arcgis/rest/services/Michael_Cope/DEM/MapServer");
             map.addLayer(borderLayer);
 
-            gp = new Geoprocessor("http://geoserver.byu.edu:6080/arcgis/rest/services/Michael_Cope/mining2/GPServer/mining2");
+            gp = new Geoprocessor("http://geoserver.byu.edu:6080/arcgis/rest/services/Michael_Cope/MiningTool/GPServer/mining");
             gp.setOutputSpatialReference({
               wkid: 102100
             });
@@ -84,29 +80,31 @@ require(["esri/Color",
           function completeCallback(jobInfo) {
             console.log("getting data");
             gp.getResultData(jobInfo.jobId, "volume", displayVolume);
-            //gp.getResultData(jobInfo.jobId, "ModifiedDEM", displayDEM);
+            gp.getResultData(jobInfo.jobId, "cut_polygon", displayCut);
           }
 
-          function displayDEM(result, messages) {
+          function displayVolume(result, messages) {
 
-              dem_result_url = result.value.url;
+              var volume = result.value.features[0].attributes.SUM;
 
-              dem_result_layer = new esri.layers.Raster(dem_result_url);
+              $("#volume").html("<p style='color:black;'><b>Cutting Volume (cubic meters):</p>" + volume);
 
-              map.removeLayer(borderLayer);
-              map.addLayer(dem_result_layer);
-
-          //     var polySymbol = new SimpleFillSymbol();
-          //     polySymbol.setOutline(new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 0.5]), 1));
-          //     polySymbol.setColor(new Color([255, 127, 0, 0.7]));
-          //     var features = result.value.features;
-          //     for (var f = 0, fl = features.length; f < fl; f++) {
-          //         var feature = features[f];
-          //         feature.setSymbol(polySymbol);
-          //         map.graphics.add(feature);
-          //     }
-          //     map.setExtent(graphicsUtils.graphicsExtent(map.graphics.graphics), true);
           }
+
+          function displayCut(result, messages) {
+
+              var polySymbol = new SimpleFillSymbol();
+              polySymbol.setOutline(new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 0.5]), 1));
+              polySymbol.setColor(new Color([255, 127, 0, 0.7]));
+              var features = result.value.features;
+              for (var f = 0, fl = features.length; f < fl; f++) {
+                  var feature = features[f];
+                  feature.setSymbol(polySymbol);
+                  map.graphics.add(feature);
+              }
+              map.setExtent(graphicsUtils.graphicsExtent(map.graphics.graphics), true);
+          }
+
 
           //adds public functions to variable app
           app = {run_service: run_service};

@@ -10,3 +10,20 @@ def home(request):
     context = {}
 
     return render(request, 'wms_map/home.html', context)
+
+def help_file(request):
+    """
+    Controller for the app home page.
+    """
+    context = {}
+
+    return render(request, 'wms_map/help_file.html', context)
+
+def technical_file(request):
+    """
+    Controller for the app home page.
+    """
+    context = {}
+
+    return render(request, 'wms_map/technical_file.html', context)
+
