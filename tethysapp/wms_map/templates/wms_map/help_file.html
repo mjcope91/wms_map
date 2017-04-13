@@ -1,5 +1,31 @@
-<h1 style="text-align: center;">HydroProspector Help File</h1>
+<h1 style="text-align: center;">Mountaintop Mining Explorer User Help File</h1>
 
 <h2>Purpose of the Application</h2>
-<p>The purpose of the HydroProspector app is calculate the reservior area and respective volume of water associated with
-    a user-designed dam site and dam height within Yichang, China and the surrounding region.&nbsp;</p>
+<p>The purpose of the Mountaintop Mining Explorer App is to allow the user to select an area on a mountain to be mined and to provide the user with the total volume of the cut material. Within the app, the user is presented with base map and a DEM of a mountain in Utah County. The user selects a point on the map that is to be the center of the mined area by clicking directly on the map. A buffer radius is then specified by the user, which will represent the area that is to be mined. When the tool is run, the user is provided with a numerical value that represents the total volume of material that will cut from the mountain based on the selected point and buffer radius. </p>
+<p>The HTML and JavaScript files for the Mountaintop Mining Explorer App were compiled using PyCharm. The app uses the BYU geoserver to host a Model Builder model that was created using ArcMap version 10.3. </p>
+<p>The Mountaintop Mining Explorer Web App was created in fulfillment of a project assignment for the GIS Software Development class taught by Dr. Dan Ames at Brigham Young University.</p>
+<h2>Software and Installation</h1>
+<p>The software and files necessary for using a launched version of the Mountaintop Mining Explorer App include an internet browser such as Mozilla Firefox or Google Chrome. With a user account, the Mountaintop Mining Explorer App can be accessed on the BYU Tethys Platform website at tethys.byu.edu. For a developer version of the Mountaintop Mining Explorer App, the user needs Oracle VirtualBox, an image of Tethys, and the HTML and JavaScript files associated with the app. </p>
+<p>Oracle VirtualBox is available to download for free at www.virtualbox.org/wiki/Downloads. It is important to download and install the correct version of VirtualBox for the computer operating system. </p>
+<p>The other remaining files that are necessary for the Mountaintop Mining Explorer App on Tethys are hosted on a GitHub repository. Users are able to access the files through GitHub. Figure 1 below shows the GitHub repository.</p>
+<img src="/static/wms_map/images/github_screenshot.jpg" alt="GitHUb" style="width:600px;height:300px;">
+<p>Figure 1: GitHub repository containing necessary files. </p>
+<p>To start Tethys in VirtualBox for the developer version of the app, the following commands should be entered:</p>
+<li>$ . /usr/lib/tethys/bin/activate</li>
+<li>(tethys) $ tethys docker start</li>
+<li>(tethys) $ tethys manage start</li>
+<p>Entering these lines of code will activate the Tethys Python virtual environment, start the docker containers, and start the development server.</p>
+<h2>Restrictions</h2>
+<p>The use of Oracle VirtualBox for the Mountaintop Mining Explorer App must be in accordance with the license associated with the VirtualBox software. The exact terms and conditions of the license can be accessed and reviewed through the VirtualBox website.</p>
+<p>The use of the Tethys Platform for the Mountaintop Mining Explorer App must also be in accordance with the license for MIT associated with the Tethys Platform software. The exact terms and conditions of the license can be accessed and reviewed through the Tethys Platform website.</p>
+<p>The Model Builder in ArcMap version 10.3 was used to create a model and publish the model to the BYU geoserver. Use of the Mountaintop Mining Explorer tools must also be in accordance with the terms and conditions associated with ArcMap that can be found on ESRI’s website. </p>
+<p>The remaining files that are necessary for the Mountaintop Mining Explorer App are freely available to the user through GitHub. The DEM for a portion of Utah County was obtained from gis.utah.gov and is thus an accurate representation of the elevations of the specified area. The ArcMap model used for calculating the cut volume of the material and updating the DEM uses interpolated elevation values. Thus the cut volume is an estimate only and may not be completely accurate.</p>
+<h2>Configuration of Data</h2>
+<p>The Mountaintop Mining Explorer App uses a Model Builder model that was created using ArcMap version 10.3. The center point for the mining area is specified by the user by clicking directly on the map. The DEM that covers a portion of Utah County was obtained from gis.utah.gov. The base map was obtained from the ESRI online maps through the ESRI rest api. The user does not need to configure the mining data as configuration of the data is included within the app.</p>
+<h2>Starting and Running the App</h2>
+<p>Once the Mountaintop Mining Explorer App is open and ready to go (see section on Software and Installation), use of the app is simple. The user is presented with the homepage of the app that is shown below in Figure 2. The navigation pane on the left hand side of the home page contains instructions for using the app. The user first selects the center point of the mining location by clicking directly on the map. A buffer radius (in meters)  is then specified. The user then clicks the “Run Tool” which connects the app to the BYU geoserver and runs the ArcMap model using the inputs that the user specified.
+</p>
+<img src="/static/wms_map/images/homepage.jpg" alt="GitHUb" style="width:600px;height:300px;">
+<p>Figure 2: Homepage of the Mountaintop Mining Explorer App. </p>
+<h2>Results</h2>
+<p>The results of the Mountaintop Mining Explorer App are easy to interpret. The user selects the center point of the desired mining location and specifies the buffer radius to be used for the mining area. When the tool is run, the map shows the buffered area that was mined and the user is given the volume of the cut material. The app provides an interactive way for the user to determine how much material would need to be removed for selected mining areas. </p>

@@ -1,5 +1,26 @@
-<h1 style="text-align: center;">HydroProspector Help File</h1>
+<h1 style="text-align: center;">Mountaintop Mining Explorer Technical Documentation</h1>
 
-<h2>Purpose of the Application</h2>
-<p>The purpose of the HydroProspector app is calculate the reservior area and respective volume of water associated with
-    a user-designed dam site and dam height within Yichang, China and the surrounding region.&nbsp;</p>
+<h2>Technical Specifications</h2>
+<p>The Mountaintop Mining Explorer  App was developed by Michael Cope and Elise Estep. The software for the app was compiled in Ubuntu using Oracle VirtualBox. PyCharm was used to compile the HTML and JavaScript files. To create the geoprocessing tool that was used, a Model Builder model were created in ArcMap and published to the BYU geoserver. Example code was borrowed from ArcGIS API for JavaScript.</p>
+<p>The Mountaintop Mining Explorer App for Tethys falls under the MIT license. Use of the app must also comply with the licenses associated with both the ESRI rest api services and ESRI’s terms and conditions for ArcMap. The terms and conditions of these licenses can be reviewed on their corresponding websites.</p>
+<p>The HTML and JavaScript files do not need to be compiled to run. Because the Mountaintop Mining Explorer App is a web-based app, it requires an internet connection. The online nature of the app also allows for its use with any computer operating system.</p>
+<p>All of the files associated with the Olympic Games app can be freely downloaded from a git repository found at:</p>
+<p>https://github.com/mjcope91/wms_map</p>
+<p>Installation instructions for the Mountaintop Mining Explorer App can be found in the Mountaintop Mining Explorer App Help File under the “Software and Installation” heading.</p>
+<h2>Software Design</h2>
+<h3>Purpose</h3>
+<p>The purpose of the Mountaintop Mining Explorer App is to allow the user to select an area on a mountain to be mined and to provide the user with the total volume of the cut material. Within the app, the user is presented with base map and a DEM of a mountain in Utah County. The user selects a point on the map that is to be the center of the mined area by clicking directly on the map. A buffer radius is then specified by the user, which will represent the area that is to be mined. When the tool is run, the user is provided with a numerical value that represents the total volume of material that will cut from the mountain based on the selected point and buffer radius. The DEM is also updated to show the the mined area.</p>
+<h3>Software Structure</h3>
+<p>The Mountaintop Mining Explorer App was created for use as part of the Tethys Platform. The HTML and JavaScript are part of Tethys, with an ESRI base map added. The key functions for the app are contained in the JavaScript files and the ArcMap model. The JavaScript contains a function that is used to add a point to the map, a function to retrieve the user-specified mining radius, and a function to pass the point and radius to the ArcMap model as input parameters. The ArcMap model uses the Buffer, Polygon to Line, Create Random Points, Extract Values to Points, IDW, Extract by Mask, Mosaic to New Raster, Raster Calculator, and Zonal Statistics tools.</p>
+<p>The software was designed in this way for organizational purposes. The HTML and JavaScript  files were kept separate from one another to avoid confusion. The JavaScript functions are clearly laid out for easy reading. Having the software files organized in this manner allows the display and function of the the app to be well organized and user friendly.</p>
+<h3>User Interface</h3>
+<p>The user interface consists of the user being able to click on the map to specify the center of the area to be mined, a textbox in which the user can specify the buffer radius of the mined area, and a “Run Tool” button that connects the app to the BYU geoserver to run the model that was created in ArcMap. The user controls are shown in Figure 1.</p>
+<img src="/static/wms_map/images/usercontrols.jpg" alt="GitHUb" style="width:250px;height:300px;">
+<p>Figure 1: User interface controls.</p>
+<p>If the user does not specify a mining location by clicking on the map, the app uses a default location. Likewise, if the user does not specify a buffer radius, the app uses a default radius of 200 meters. The flowchart in Figure 2 shows the method the model uses to determine which mining point and buffer radius to use. </p>
+<img src="/static/wms_map/images/flowchart.JPG" alt="GitHUb" style="width:600px;height:300px;">
+<p>Figure 2: Flowchart for mining location and buffer radius.</p>
+<p>The Mountaintop Mining App follows a simple process to run. The running procedure that is used by the app is displayed in Figure 3.</p>
+<img src="/static/wms_map/images/uml.JPG" alt="GitHUb" style="width:600px;height:200px;">
+<p>Figure 3: UML for the Mountaintop Mining Explorer App. </p>
+<p>The purpose of the user interface elements is to enhance the interactive nature of the app by allowing the user to specify the inputs to be used for mining. Clicking on the map allows the user to determine the desired mining area, and textbox allows the user to specify the size of the area to be mined.</p>

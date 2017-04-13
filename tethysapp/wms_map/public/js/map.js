@@ -71,7 +71,7 @@ require(["esri/Color",
             } else if (jobInfo.jobStatus === "esriJobExecuting") {
                 $("#volstatus").html("<h7 style='color:red;'><b>Calculating...</b></h7>");
             } else if (jobInfo.jobStatus === "esriJobSucceeded") {
-                $("#volstatus").html("<h7 style='color:green;'><b>Succeed!</b></h7>");
+                $("#volstatus").html("<h7 style='color:green;'><b>Succeeded!</b></h7>");
             } else if (jobInfo.jobStatus === "esriJobFailed") {
                 $("#volstatus").html("<h7 style='color:red;'><b>Failed</b></h7>");
           }

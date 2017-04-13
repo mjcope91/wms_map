@@ -6,7 +6,7 @@ class MountainTopMiningExplorer(TethysAppBase):
     Tethys app class for Mountain Top Mining Explorer.
     """
 
-    name = 'Mountain Top Mining Explorer'
+    name = 'Mountaintop Mining Explorer'
     index = 'wms_map:home'
     icon = 'wms_map/images/mining.jpg'
     package = 'wms_map'
